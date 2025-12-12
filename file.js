@@ -54,7 +54,7 @@ file.expand = function(...args) {
   // If the first argument is an options object, save those options to pass
   // into the File.prototype.glob.sync method.
   var options = isPlainObject(args[0]) ? args.shift() : {};
-  // Use the first argument if it's an Array, otherwise convert the arguments
+  // Use the first argument if it's an Array; otherwise, convert the arguments
   // object to an array and use that.
   var patterns = Array.isArray(args[0]) ? args[0] : args;
   // Return empty set if there are no patterns or filepaths.

@@ -1,29 +1,12 @@
 /*global describe,it */
-var fs = require('fs');
-var assert = require('chai').assert;
-
-var Stream = require('stream').Stream;
-var Readable = require('readable-stream').Readable;
-var Writable = require('readable-stream').Writable;
-var PassThrough = require('readable-stream').PassThrough;
-
-var helpers = require('./helpers');
-var adjustDateByOffset = helpers.adjustDateByOffset;
-var binaryBuffer = helpers.binaryBuffer;
-var BinaryStream = helpers.BinaryStream;
-var DeadEndStream = helpers.DeadEndStream;
-var UnBufferedStream = helpers.UnBufferedStream;
-
-var utils = require('../index.js');
-
-var testBuffer = binaryBuffer(20000);
+import { assert } from 'chai';
+import { Stream } from 'stream';
+import { Readable, Writable, PassThrough } from 'readable-stream';
+import { DeadEndStream, UnBufferedStream } from './helpers/index.mjs';
+import * as utils from '../index.mjs';
 
 var testDateString = 'Jan 03 2013 14:26:38 GMT';
 var testDate = new Date(testDateString);
-var testDateEpoch = 1357223198;
-var testDateOctal = 12071312436;
-
-var testTimezoneOffset = testDate.getTimezoneOffset();
 
 describe('utils', function() {
 
@@ -36,7 +19,7 @@ describe('utils', function() {
         assert.instanceOf(utils.dateify(null), Date);
       });
 
-      it('should passthrough an instance of Date', function() {
+      it('should pass through an instance of Date', function() {
         assert.deepEqual(utils.dateify(testDate), testDate);
       });
 
@@ -61,7 +44,7 @@ describe('utils', function() {
     describe('isStream(source)', function() {
       it('should return false if source is not a stream', function() {
         assert.notOk(utils.isStream('string'));
-        assert.notOk(utils.isStream(new Buffer(2)));
+        assert.notOk(utils.isStream(Buffer.alloc(2)));
       });
 
       it('should return true if source is a stream', function() {

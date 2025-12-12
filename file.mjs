@@ -5,17 +5,14 @@
  * Licensed under the MIT license.
  * https://github.com/archiverjs/node-archiver/blob/master/LICENSE-MIT
  */
-var fs = require('graceful-fs');
-var path = require('path');
+import * as fs from 'graceful-fs';
+import 'path';
+import 'glob';
 
-var flatten = require('lodash/flatten');
-var difference = require('lodash/difference');
-var union = require('lodash/union');
-var isPlainObject = require('lodash/isPlainObject');
-
-var glob = require('glob');
-
-var file = module.exports = {};
+var flatten = Array.prototype.flat;
+var difference = (base, exclusions) => base.filter(item => !exclusions.includes(item));
+var union = (left, right) => [...new Set([...left, ...right])];
+var isPlainObject = (obj) => Object.prototype.toString.call(obj) === '[object Object]';
 
 var pathSeparatorRe = /[\/\\]/g;
 
@@ -44,17 +41,17 @@ var processPatterns = function(patterns, fn) {
 };
 
 // True if the file path exists.
-file.exists = function() {
+export function exists() {
   var filepath = path.join.apply(path, arguments);
   return fs.existsSync(filepath);
 };
 
 // Return an array of all file paths that match the given wildcard patterns.
-file.expand = function(...args) {
+export function expand(...args) {
   // If the first argument is an options object, save those options to pass
   // into the File.prototype.glob.sync method.
   var options = isPlainObject(args[0]) ? args.shift() : {};
-  // Use the first argument if it's an Array, otherwise convert the arguments
+  // Use the first argument if it's an Array; otherwise, convert the arguments
   // object to an array and use that.
   var patterns = Array.isArray(args[0]) ? args[0] : args;
   // Return empty set if there are no patterns or filepaths.
@@ -85,7 +82,7 @@ file.expand = function(...args) {
 };
 
 // Build a multi task "files" object dynamically.
-file.expandMapping = function(patterns, destBase, options) {
+export function expandMapping(patterns, destBase, options) {
   options = Object.assign({
     rename: function(destBase, destPath) {
       return path.join(destBase || '', destPath);
@@ -129,7 +126,7 @@ file.expandMapping = function(patterns, destBase, options) {
 };
 
 // reusing bits of grunt's multi-task source normalization
-file.normalizeFilesArray = function(data) {
+export function normalizeFilesArray(data) {
   var files = [];
 
   data.forEach(function(obj) {

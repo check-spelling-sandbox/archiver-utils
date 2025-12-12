@@ -51,7 +51,7 @@ describe('utils', function() {
     describe('isStream(source)', function() {
       it('should return false if source is not a stream', function() {
         assert.notOk(utils.isStream('string'));
-        assert.notOk(utils.isStream(new Buffer(2)));
+        assert.notOk(utils.isStream(Buffer.alloc(2)));
       });
 
       it('should return true if source is a stream', function() {

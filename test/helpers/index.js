@@ -21,7 +21,7 @@ function adjustDateByOffset(d, offset) {
 module.exports.adjustDateByOffset = adjustDateByOffset;
 
 function binaryBuffer(n) {
-  var buffer = new Buffer(n);
+  var buffer = Buffer.alloc(n);
 
   for (var i = 0; i < n; i++) {
     buffer.writeUInt8(i&255, i);
@@ -32,10 +32,11 @@ function binaryBuffer(n) {
 
 module.exports.binaryBuffer = binaryBuffer;
 
-function BinaryStream(size, options) {
+function BinaryStream(sizeAsAny, options) {
   Readable.call(this, options);
 
-  var buf = new Buffer(size);
+  var size = sizeAsAny - 0;
+  var buf = Buffer.alloc(size);
 
   for (var i = 0; i < size; i++) {
     buf.writeUInt8(i&255, i);

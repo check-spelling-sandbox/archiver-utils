@@ -11,7 +11,7 @@ var path = require('path');
 var flatten = Array.prototype.flat;
 var difference = (base, exclusions) => base.filter(item => !exclusions.includes(item));
 var union = (left, right) => [...new Set([...left, ...right])];
-var isPlainObject = require('lodash/isPlainObject');
+var isPlainObject = (obj) => Object.prototype.toString.call(obj) === '[object Object]';
 
 var glob = require('glob');
 

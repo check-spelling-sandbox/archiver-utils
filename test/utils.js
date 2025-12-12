@@ -1,5 +1,4 @@
 /*global describe,it */
-var fs = require('fs');
 var assert = require('chai').assert;
 
 var Stream = require('stream').Stream;
@@ -8,22 +7,13 @@ var Writable = require('readable-stream').Writable;
 var PassThrough = require('readable-stream').PassThrough;
 
 var helpers = require('./helpers');
-var adjustDateByOffset = helpers.adjustDateByOffset;
-var binaryBuffer = helpers.binaryBuffer;
-var BinaryStream = helpers.BinaryStream;
 var DeadEndStream = helpers.DeadEndStream;
 var UnBufferedStream = helpers.UnBufferedStream;
 
 var utils = require('../index.js');
 
-var testBuffer = binaryBuffer(20000);
-
 var testDateString = 'Jan 03 2013 14:26:38 GMT';
 var testDate = new Date(testDateString);
-var testDateEpoch = 1357223198;
-var testDateOctal = 12071312436;
-
-var testTimezoneOffset = testDate.getTimezoneOffset();
 
 describe('utils', function() {
 

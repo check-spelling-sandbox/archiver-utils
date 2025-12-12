@@ -9,7 +9,7 @@ var fs = require('graceful-fs');
 var path = require('path');
 
 var flatten = Array.prototype.flat;
-var difference = require('lodash/difference');
+var difference = (base, exclusions) => base.filter(item => !exclusions.includes(item));
 var union = require('lodash/union');
 var isPlainObject = require('lodash/isPlainObject');
 

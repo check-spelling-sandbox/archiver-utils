@@ -11,7 +11,6 @@ var isStream = require('is-stream');
 var lazystream = require('lazystream');
 var normalizePath = require('normalize-path');
 
-var Stream = require('stream').Stream;
 var PassThrough = require('readable-stream').PassThrough;
 
 var utils = module.exports = {};

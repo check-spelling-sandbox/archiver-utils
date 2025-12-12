@@ -36,7 +36,7 @@ describe('utils', function() {
         assert.instanceOf(utils.dateify(null), Date);
       });
 
-      it('should passthrough an instance of Date', function() {
+      it('should pass through an instance of Date', function() {
         assert.deepEqual(utils.dateify(testDate), testDate);
       });
 

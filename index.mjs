@@ -5,18 +5,15 @@
  * Licensed under the MIT license.
  * https://github.com/archiverjs/archiver-utils/blob/master/LICENSE
  */
-var fs = require('graceful-fs');
-var path = require('path');
-var isStream = require('is-stream');
-var lazystream = require('lazystream');
-var normalizePath = require('normalize-path');
+import fs from 'graceful-fs';
+import path from 'path';
+import { default as isStreamInternal } from 'is-stream';
+import lazystream from 'lazystream';
+import { default as normalizePath } from 'normalize-path';
+import { PassThrough } from 'readable-stream';
+export * as file from './file.mjs';
 
-var PassThrough = require('readable-stream').PassThrough;
-
-var utils = module.exports = {};
-utils.file = require('./file.js');
-
-utils.collectStream = function(source, callback) {
+export function collectStream(source, callback) {
   var collection = [];
   var size = 0;
 
@@ -40,7 +37,7 @@ utils.collectStream = function(source, callback) {
   });
 };
 
-utils.dateify = function(dateish) {
+export function dateify(dateish) {
   dateish = dateish || new Date();
 
   if (dateish instanceof Date) {
@@ -55,29 +52,29 @@ utils.dateify = function(dateish) {
 };
 
 // this is slightly different from lodash version
-utils.defaults = function(object, source, guard) {
+export function defaults(object, source, guard) {
   var args = arguments;
   args[0] = args[0] || {};
 
   return Object.assign.apply({}, args);
 };
 
-utils.isStream = function(source) {
-  return isStream(source);
-};
+export function isStream(source) {
+  return isStreamInternal(source);
+}
 
-utils.lazyReadStream = function(filepath) {
+export function lazyReadStream(filepath) {
   return new lazystream.Readable(function() {
     return fs.createReadStream(filepath);
   });
 };
 
-utils.normalizeInputSource = function(source) {
+export function normalizeInputSource(source) {
   if (source === null) {
     return Buffer.alloc(0);
   } else if (typeof source === 'string') {
     return Buffer.from(source);
-  } else if (utils.isStream(source)) {
+  } else if (isStream(source)) {
     // Always pipe through a PassThrough stream to guarantee pausing the stream if it's already flowing,
     // since it will only be processed in a (distant) future iteration of the event loop, and will lose
     // data if already flowing now.
@@ -87,19 +84,19 @@ utils.normalizeInputSource = function(source) {
   return source;
 };
 
-utils.sanitizePath = function(filepath) {
+export function sanitizePath(filepath) {
   return normalizePath(filepath, false).replace(/^\w+:/, '').replace(/^(\.\.\/|\/)+/, '');
 };
 
-utils.trailingSlashIt = function(str) {
+export function trailingSlashIt(str) {
   return str.slice(-1) !== '/' ? str + '/' : str;
 };
 
-utils.unixifyPath = function(filepath) {
+export function unixifyPath(filepath) {
   return normalizePath(filepath, false).replace(/^\w+:/, '');
 };
 
-utils.walkdir = function(dirpath, base, callback) {
+export function walkdir(dirpath, base, callback) {
   var results = [];
 
   if (typeof base === 'function') {
@@ -133,7 +130,7 @@ utils.walkdir = function(dirpath, base, callback) {
         });
 
         if (stats && stats.isDirectory()) {
-          utils.walkdir(filepath, base, function(err, res) {
+          walkdir(filepath, base, function(err, res) {
 	    if(err){
 	      return callback(err);
 	    }

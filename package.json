@@ -19,14 +19,15 @@
     "archiver",
     "utils"
   ],
-  "main": "index.js",
+  "exports": "./index.mjs",
   "files": [
-    "index.js",
-    "file.js"
+    "index.mjs",
+    "file.mjs"
   ],
   "engines": {
     "node": ">= 20"
   },
+  "type": "module",
   "scripts": {
     "test": "mocha --reporter dot"
   },

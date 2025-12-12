@@ -1,16 +1,9 @@
 /*global describe,it */
-var assert = require('chai').assert;
-
-var Stream = require('stream').Stream;
-var Readable = require('readable-stream').Readable;
-var Writable = require('readable-stream').Writable;
-var PassThrough = require('readable-stream').PassThrough;
-
-var helpers = require('./helpers');
-var DeadEndStream = helpers.DeadEndStream;
-var UnBufferedStream = helpers.UnBufferedStream;
-
-var utils = require('../index.js');
+import { assert } from 'chai';
+import { Stream } from 'stream';
+import { Readable, Writable, PassThrough } from 'readable-stream';
+import { DeadEndStream, UnBufferedStream } from './helpers/index.mjs';
+import * as utils from '../index.mjs';
 
 var testDateString = 'Jan 03 2013 14:26:38 GMT';
 var testDate = new Date(testDateString);
